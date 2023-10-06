@@ -1,24 +1,80 @@
-# bun starter
+# Paddle Billing SDK
+
+See https://developer.paddle.com/api-reference/overview
 
 ## Getting Started
 
-Click the [Use this template](https://github.com/wobsoriano/bun-lib-starter/generate) button to create a new repository with the contents starter.
-
-OR
-
-Run `bun create wobsoriano/bun-lib-starter ./my-lib`.
+SDK for Node.js runtime to send API requests to Paddle Billing endpoints
 
 ## Setup
 
 ```bash
-# install dependencies
-bun install
+npm install paddle-billing-sdk
+```
 
-# test the app
-bun test
+```bash
+yarn add paddle-billing-sdk
+```
 
-# build the app, available under dist
-bun run build
+## Endpoints
+
+- [x] Prices
+- [x] Products
+- [x] Customer
+- [ ] Discounts
+- [ ] Addresses
+- [ ] Businesses
+- [ ] Transactions
+- [x] Subscriptions
+- [ ] Adjustments
+- [ ] Event types
+- [ ] Events
+- [ ] Notifications
+
+## Webhooks
+
+Usage with Next.js API handlers
+
+```tsx
+import { WebhookEvents, signatureHeader } from 'paddle-billing-sdk'
+import { NextApiRequest, NextApiResponse } from 'next'
+
+const authSecret = process.env.PADDLE_AUTH_SECRET
+const webhookSecret = process.env.PADDLE_WEBHOOK_SECRET
+
+if (!authSecret) throw new Error('No Paddle auth secret set!')
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
+
+const handler = async function (req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST')
+    res.status(405).end('Method Not Allowed')
+    return
+  }
+
+  if (!req.headers[signatureHeader] || typeof req.headers[signatureHeader] !== 'string') {
+    res.status(400).end('Invalid signature')
+    return
+  }
+
+  try {
+    const sig = req.headers[signatureHeader]
+    const events = new WebhookEvents(sig, webhookSecret)
+    const buf = await WebhookEvents.buffer(req)
+    const event = events.constructEvent(buf)
+    console.log(event)
+  } catch (error) {
+    console.log(error)
+    if (error instanceof Error) {
+      res.status(400).json({ error: error.message })
+    }
+  }
+}
 ```
 
 ## License
