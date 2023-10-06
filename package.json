@@ -4,10 +4,10 @@
   "version": "0.0.9",
   "type": "module",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/bun/index.d.ts",
   "scripts": {
-    "build-bun": "bun run build.mjs",
-    "build": "rm -rf dist && node esbuild.js && tsc",
+    "build:types": "bun run build.mjs",
+    "build": "rm -rf dist && node esbuild.js",
     "prepublishOnly": "bun run build",
     "pub": "npm publish --access public"
   },
