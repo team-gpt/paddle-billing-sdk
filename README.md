@@ -110,9 +110,9 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
 
 1. Create an account in https://ngrok.com/
 2. Expose your local server
-  ```
-  ngrok http 3000
-  ```
+    ```
+    ngrok http 3000
+    ```
 2. Add the exposed server to Paddle Notifications at https://sandbox-vendors.paddle.com/notifications
    ```
    https://xxx-xx-xxx-xxx-xx.ngrok-free.app/api/webhooks/paddle-events	
