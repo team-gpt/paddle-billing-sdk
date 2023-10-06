@@ -25,6 +25,7 @@ export class PaddleClient {
     const baseURL = config.sandbox ? 'https://sandbox-api.paddle.com' : 'https://api.paddle.com'
     this.client = axios.create({
       baseURL,
+      adapter: 'http',
       headers: {
         Authorization: `Bearer ${config.authToken}`,
       },
