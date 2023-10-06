@@ -31,7 +31,24 @@ yarn add @team-gpt/paddle-billing-sdk
 - [ ] Events
 - [ ] Notifications
 
-## Webhooks
+## Usage
+
+### Paddle Client
+
+```tsx
+import { PaddleClient } from '@team-gpt/paddle-billing-sdk'
+
+/**
+ * @see https://developer.paddle.com/api-reference/prices/overview
+ */
+export const paddleClient = new PaddleClient({
+  authToken: process.env.PADDLE_AUTH_SECRET || 'MISSING',
+  vendorId: Number(process.env.NEXT_PUBLIC_PADDLE_VENDOR_ID),
+  sandbox: Boolean(process.env.NEXT_PUBLIC_PADDLE_SANDBOX),
+})
+```
+
+### Webhooks
 
 Usage with Next.js API handlers
 
