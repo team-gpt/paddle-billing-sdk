@@ -1,6 +1,6 @@
 # Paddle Billing SDK
 
-Unofficial Paddling Billing API SDK for Node.js runtime
+Unofficial Paddle Billing API SDK for Node.js runtime
 
 See https://developer.paddle.com/api-reference/overview
 
