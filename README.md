@@ -16,6 +16,16 @@ npm i @team-gpt/paddle-billing-sdk
 yarn add @team-gpt/paddle-billing-sdk
 ```
 
+### Peer dependencies
+
+[Axios](https://axios-http.com/)
+
+```
+npm i axios
+yarn add axios
+```
+
+
 ### Endpoints
 
 - [x] Prices
