@@ -1,10 +1,10 @@
 import { Customer } from '../endpoints/CustomerEndpoint'
 import { Subscription } from '../endpoints/SubscriptionEndpoint'
 
-type Webhook<EvtType, Data> = {
+export type Webhook<EventType, Data> = {
   data: Data
   event_id: string
-  event_type: EvtType
+  event_type: EventType
   occurred_at: Date
   notification_id: string
 }

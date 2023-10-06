@@ -3,6 +3,9 @@ import { Readable } from 'stream'
 
 export const signatureHeader = 'paddle-signature'
 
+/**
+ * @see https://developer.paddle.com/webhooks/overview
+ */
 export class WebhookEvents {
   private signature: string
   private webhookSecret: string
@@ -56,6 +59,11 @@ export class WebhookEvents {
     return hmac.digest('hex')
   }
 
+  /**
+   * @see https://developer.paddle.com/webhooks/signature-verification
+   *
+   * @param requestBody Buffer
+   */
   private verifyPaddleSignature(requestBody: Buffer) {
     const { ts, receivedH1 } = this.extractHeaderElements(this.signature)
     const payload = this.buildPayload(ts, requestBody.toString('utf8'))
