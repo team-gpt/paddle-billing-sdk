@@ -7,7 +7,7 @@
   "types": "dist/bun/index.d.ts",
   "scripts": {
     "build:types": "bun run build.mjs",
-    "build": "rm -rf dist && node esbuild.js",
+    "build": "rm -rf dist && node esbuild.js && bun run build.mjs",
     "prepublishOnly": "bun run build",
     "pub": "npm publish --access public"
   },
