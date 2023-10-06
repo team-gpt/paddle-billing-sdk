@@ -1,0 +1,16 @@
+.git
+.github
+.next
+.yarn
+.pnp*
+*.css
+**/*.d.ts
+build
+manifests
+node_modules
+package-lock.json
+yarn.lock
+
+# Bun
+bun.lockb
+build.mjs
