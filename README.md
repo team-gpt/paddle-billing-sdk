@@ -120,6 +120,23 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
  4. Send a request
 
 
+## Extend custom data
+
+To extend the default custom data interfaces add the following to your codebase
+
+```tsx
+// Custom interfaces for metadata
+declare module '@team-gpt/paddle-billing-sdk' {
+  export interface CustomerMetadata {
+    orgId: string
+    userId: string
+  }
+  export interface SubscriptionMetadata {
+    orgId: string
+    userId: string
+  }
+}
+```
 
 ## License
 
