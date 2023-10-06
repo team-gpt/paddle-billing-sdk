@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { Readable } from 'stream'
+import type { Readable } from 'stream'
 
 export const signatureHeader = 'paddle-signature'
 
