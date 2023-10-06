@@ -3,6 +3,7 @@
     "target": "es2020",
     "module": "esnext",
     "strict": true,
+    "declaration": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -12,6 +13,8 @@
     "noEmit": true,
     "outDir": "dist",
     "resolveJsonModule": true,
-    "types": ["bun-types"]
+    "types": [
+      "bun-types"
+    ]
   }
 }
