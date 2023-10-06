@@ -63,6 +63,8 @@ export const paddleClient = new PaddleClient({
 Usage with Next.js API handlers
 
 ```tsx
+// /pages/api/webhooks/paddle-events.ts
+
 import { WebhookEvents, signatureHeader } from 'paddle-billing-sdk'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -103,6 +105,21 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   }
 }
 ```
+
+### Receive webhooks
+
+1. Create an account in https://ngrok.com/
+2. Expose your local server
+  ```
+  ngrok http 3000
+  ```
+2. Add the exposed server to Paddle Notifications at https://sandbox-vendors.paddle.com/notifications
+   ```
+   https://xxx-xx-xxx-xxx-xx.ngrok-free.app/api/webhooks/paddle-events	
+   ```
+ 4. Send a request
+
+
 
 ## License
 
