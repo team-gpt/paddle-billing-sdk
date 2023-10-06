@@ -9,7 +9,7 @@ esbuild
     minify: true,
     treeShaking: true,
     platform: 'node',
-    format: 'cjs',
+    format: 'esm',
     target: 'node20',
     plugins: [nodeExternalsPlugin()],
   })
