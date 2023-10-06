@@ -1,14 +1,12 @@
 # Paddle Billing SDK
 
-Unofficial SDK for Node.js runtime
+Unofficial Paddling Billing API SDK for Node.js runtime
 
 See https://developer.paddle.com/api-reference/overview
 
 ## Getting Started
 
-SDK for Node.js runtime to send API requests to Paddle Billing endpoints
-
-## Setup
+### Setup
 
 ```bash
 npm i @team-gpt/paddle-billing-sdk
@@ -18,7 +16,7 @@ npm i @team-gpt/paddle-billing-sdk
 yarn add @team-gpt/paddle-billing-sdk
 ```
 
-## Endpoints
+### Endpoints
 
 - [x] Prices
 - [x] Products
