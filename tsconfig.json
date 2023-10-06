@@ -10,7 +10,7 @@
     "noUnusedLocals": true,
     "noImplicitAny": true,
     "allowJs": true,
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "outDir": "dist",
     "resolveJsonModule": true,
     "types": [
