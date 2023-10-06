@@ -9,11 +9,11 @@ SDK for Node.js runtime to send API requests to Paddle Billing endpoints
 ## Setup
 
 ```bash
-npm install paddle-billing-sdk
+npm i @team-gpt/paddle-billing-sdk
 ```
 
 ```bash
-yarn add paddle-billing-sdk
+yarn add @team-gpt/paddle-billing-sdk
 ```
 
 ## Endpoints
