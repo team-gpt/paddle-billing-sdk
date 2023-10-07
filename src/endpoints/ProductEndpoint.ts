@@ -1,7 +1,12 @@
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
-import { Price } from './PricingEndpoint'
+import { Price } from './PricesEndpoint'
+import { BaseQueryParams, BaseResponse } from './base'
+
+export interface ProductMetadata {
+  [key: string]: boolean | number | string
+}
 
 type ProductStatus = 'active' | 'archived'
 
@@ -16,24 +21,11 @@ type TaxCategory =
   | 'training-services'
   | 'website-hosting'
 
-type ListProductsQueryParams = {
-  after?: string
+type ListProductsQueryParams = BaseQueryParams & {
   id?: string
   include?: 'prices'
-  order_by?: string
-  per_page?: number
   status?: ProductStatus
   tax_category?: TaxCategory
-}
-
-type Features = {
-  reports: boolean
-  crm: boolean
-  data_retention: boolean
-}
-
-type ProductCustomData = {
-  features: Features
 }
 
 type Product = {
@@ -42,21 +34,17 @@ type Product = {
   tax_category: string
   description: string
   image_url: string
-  custom_data: ProductCustomData | null
-  status: string
+  custom_data: ProductMetadata | null
+  status: ProductStatus
   created_at: string
+  // with include=prices
   prices?: Price[]
 }
 
 type CreateProductRequestBody = Omit<Product, 'id' | 'status' | 'created_at'>
 type UpdateProductRequestBody = Partial<Omit<Product, 'id' | 'created_at'>>
 
-interface ProductResponse {
-  data: Product[]
-  meta: {
-    request_id: string
-  }
-}
+export type ProductResponse = BaseResponse<Product[]>
 
 export class ProductEndpoint {
   private client: AxiosInstance

@@ -1,15 +1,17 @@
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
+import { BaseQueryParams, BaseResponse, stringifyQuery } from './base'
+
+export interface PriceMetadata {
+  [key: string]: boolean | number | string
+}
 
 type PriceStatus = 'active' | 'archived'
 
-type ListPricesQueryParams = {
-  after?: string
+type ListPricesQueryParams = BaseQueryParams & {
   id?: string
   include?: 'product'
-  order_by?: string
-  per_page?: number
   product_id?: string | string[]
   status?: PriceStatus
   recurring?: boolean
@@ -50,32 +52,26 @@ export type Price = {
   unit_price: UnitPrice
   unit_price_overrides: UnitPriceOverride[]
   quantity: Quantity
-  status: 'active' | 'archived'
-  custom_data: Record<string, unknown> | null
+  status: PriceStatus
+  custom_data: PriceMetadata | null
 }
 
-type PriceResponse = {
-  data: Price[]
-  meta: {
-    request_id: string
-  }
-}
+type PriceResponse = BaseResponse<Price>
+type PricesResponse = BaseResponse<Price[]>
 
-export class PricingEndpoint {
+export class PricesEndpoint {
   private client: AxiosInstance
 
   constructor(paddleClient: PaddleClient) {
     this.client = paddleClient.client
   }
 
-  async listPrices(queryParams?: ListPricesQueryParams): Promise<PriceResponse> {
-    const response = await this.client.get<PriceResponse>('/prices', {
+  async listPrices(queryParams?: ListPricesQueryParams): Promise<PricesResponse> {
+    const response = await this.client.get<PricesResponse>('/prices', {
       params: {
         ...queryParams,
         ...(queryParams?.product_id && {
-          product_id: Array.isArray(queryParams.product_id)
-            ? queryParams.product_id.join(',')
-            : queryParams.product_id,
+          product_id: stringifyQuery(queryParams.product_id),
         }),
       },
     })

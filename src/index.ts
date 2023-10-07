@@ -1,6 +1,6 @@
 export type * from './webhooks/types'
 export type * from './endpoints/CustomerEndpoint'
-export type * from './endpoints/PricingEndpoint'
+export type * from './endpoints/PricesEndpoint'
 export type * from './endpoints/ProductEndpoint'
 export type * from './endpoints/SubscriptionEndpoint'
 

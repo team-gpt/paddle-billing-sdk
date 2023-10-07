@@ -1,7 +1,8 @@
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
-import { Price } from './PricingEndpoint'
+import { Price } from './PricesEndpoint'
+import { BaseQueryParams, BaseResponse } from './base'
 
 export interface SubscriptionMetadata {
   [key: string]: boolean | number | string
@@ -9,8 +10,8 @@ export interface SubscriptionMetadata {
 
 type Discount = {
   id: string
-  starts_at: Date
-  ends_at: Date
+  starts_at: string
+  ends_at: string
 }
 
 type BillingDetails = {
@@ -25,8 +26,8 @@ type PaymentTerms = {
 }
 
 type Period = {
-  starts_at: Date
-  ends_at: Date
+  starts_at: string
+  ends_at: string
 }
 
 type Cycling = {
@@ -36,8 +37,8 @@ type Cycling = {
 
 type ScheduledChange = {
   action: 'cancel' | 'pause' | 'resume'
-  effective_at: Date
-  resume_at: Date | null
+  effective_at: string
+  resume_at: string | null
 }
 
 type ManagementURLs = {
@@ -51,10 +52,10 @@ type SubscriptionItem = {
   status: SubscriptionStatus
   quantity: number
   recurring: boolean
-  created_at: Date
-  updated_at: Date
-  previously_billed_at: Date | null
-  next_billed_at: Date | null
+  created_at: string
+  updated_at: string
+  previously_billed_at: string | null
+  next_billed_at: string | null
   trial_dates: Period | null
   price: Price
   custom_data?: SubscriptionMetadata
@@ -67,13 +68,13 @@ export type Subscription = {
   address_id: string
   business_id: string | null
   currency_code: string
-  created_at: Date
-  updated_at: Date
-  started_at: Date | null
-  first_billed_at: Date | null
-  next_billed_at: Date | null
-  paused_at: Date | null
-  canceled_at: Date | null
+  created_at: string
+  updated_at: string
+  started_at: string | null
+  first_billed_at: string | null
+  next_billed_at: string | null
+  paused_at: string | null
+  canceled_at: string | null
   discount: Discount | null
   collection_mode: string
   billing_details: BillingDetails | null
@@ -105,24 +106,11 @@ type UpdateSubscriptionRequestBody = Partial<
   proration_billing_mode: ProrationBillingMode
 }
 
-type SingleSubscriptionResponse = {
-  data: Subscription
-  meta: {
-    request_id: string
-  }
-}
-type SubscriptionResponse = {
-  data: Subscription[]
-  meta: {
-    request_id: string
-  }
-}
+type SubscriptionResponse = BaseResponse<Subscription>
+type SubscriptionsResponse = BaseResponse<Subscription[]>
 
-type ListSubscriptionsQueryParams = {
-  after?: string
+type ListSubscriptionsQueryParams = BaseQueryParams & {
   customer_id?: string
-  order_by?: string
-  per_page?: number
   price_id?: string
   status?: SubscriptionStatus
 }
@@ -140,8 +128,8 @@ export class SubscriptionEndpoint {
 
   async listSubscriptions(
     queryParams?: ListSubscriptionsQueryParams,
-  ): Promise<SubscriptionResponse> {
-    const response = await this.client.get<SubscriptionResponse>('/subscriptions', {
+  ): Promise<SubscriptionsResponse> {
+    const response = await this.client.get<SubscriptionsResponse>('/subscriptions', {
       params: queryParams,
     })
     return response.data
@@ -149,19 +137,16 @@ export class SubscriptionEndpoint {
 
   async createSubscription(
     subscription: CreateSubscriptionRequestBody,
-  ): Promise<SingleSubscriptionResponse> {
-    const response = await this.client.post<SingleSubscriptionResponse>(
-      '/subscriptions',
-      subscription,
-    )
+  ): Promise<SubscriptionResponse> {
+    const response = await this.client.post<SubscriptionResponse>('/subscriptions', subscription)
     return response.data
   }
 
   async getSubscription(
     subscriptionId: string,
     queryParams?: GetSubscriptionQueryParams,
-  ): Promise<SingleSubscriptionResponse> {
-    const response = await this.client.get<SingleSubscriptionResponse>(
+  ): Promise<SubscriptionResponse> {
+    const response = await this.client.get<SubscriptionResponse>(
       `/subscriptions/${subscriptionId}`,
       { params: queryParams },
     )
@@ -171,8 +156,8 @@ export class SubscriptionEndpoint {
   async updateSubscription(
     subscriptionId: string,
     updates: UpdateSubscriptionRequestBody,
-  ): Promise<SingleSubscriptionResponse> {
-    const response = await this.client.patch<SingleSubscriptionResponse>(
+  ): Promise<SubscriptionResponse> {
+    const response = await this.client.patch<SubscriptionResponse>(
       `/subscriptions/${subscriptionId}`,
       updates,
     )

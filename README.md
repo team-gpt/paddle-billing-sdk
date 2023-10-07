@@ -2,29 +2,32 @@
 
 Unofficial Paddle Billing API SDK for Node.js runtime
 
-See https://developer.paddle.com/api-reference/overview
+See <https://developer.paddle.com/api-reference/overview>
 
 ## Getting Started
 
 ### Setup
 
-```bash
+```shell
 npm i @team-gpt/paddle-billing-sdk
 ```
 
-```bash
+```shell
 yarn add @team-gpt/paddle-billing-sdk
+```
+
+```shell
+bun add @team-gpt/paddle-billing-sdk
 ```
 
 ### Peer dependencies
 
-[Axios](https://axios-http.com/)
+Axios - <https://axios-http.com/>
 
-```
+```shell
 npm i axios
 yarn add axios
 ```
-
 
 ### Endpoints
 
@@ -37,11 +40,24 @@ yarn add axios
 - [ ] Transactions
 - [x] Subscriptions
 - [ ] Adjustments
-- [ ] Event types
+- [ ] Event Types
 - [ ] Events
 - [ ] Notifications
 
 ## Usage
+
+### Authentication
+
+Create an apikey from the Authentication page in Paddle platform:
+
+- <https://vendors.paddle.com/authentication>
+- <https://sandbox-vendors.paddle.com/authentication>
+
+```environment
+PADDLE_AUTH_SECRET=
+NEXT_PUBLIC_PADDLE_VENDOR_ID=
+NEXT_PUBLIC_PADDLE_SANDBOX=
+```
 
 ### Paddle Client
 
@@ -62,7 +78,7 @@ export const paddleClient = new PaddleClient({
 
 Usage with Next.js API handlers
 
-```tsx
+```ts
 // /pages/api/webhooks/paddle-events.ts
 
 import { WebhookEvents, signatureHeader } from 'paddle-billing-sdk'
@@ -108,17 +124,20 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
 
 ### Receive webhooks
 
-1. Create an account in https://ngrok.com/
+1. Create an account in <https://ngrok.com/>
 2. Expose your local server
-    ```
-    ngrok http 3000
-    ```
-2. Add the exposed server to Paddle Notifications at https://sandbox-vendors.paddle.com/notifications
-   ```
-   https://xxx-xx-xxx-xxx-xx.ngrok-free.app/api/webhooks/paddle-events	
-   ```
- 4. Send a request
 
+   ```shell
+   ngrok http 3000
+   ```
+
+3. Add the exposed server to Paddle Notifications at <https://sandbox-vendors.paddle.com/notifications>
+
+   ```shell
+   https://xxx-xx-xxx-xxx-xx.ngrok-free.app/api/webhooks/paddle-events
+   ```
+
+4. Send a request
 
 ## Extend custom data
 
@@ -127,15 +146,25 @@ To extend the default custom data interfaces add the following to your codebase
 ```tsx
 // Custom interfaces for metadata
 declare module '@team-gpt/paddle-billing-sdk' {
+  export interface PriceMetadata {
+    myKey: string
+  }
+  export interface ProductMetadata {
+    myKey: string
+  }
   export interface CustomerMetadata {
-    orgId: string
-    userId: string
+    myKey: string
   }
   export interface SubscriptionMetadata {
-    orgId: string
-    userId: string
+    myKey: string
   }
 }
+```
+
+## Testing
+
+```shell
+bun test
 ```
 
 ## License

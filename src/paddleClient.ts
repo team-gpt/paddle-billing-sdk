@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 
 import { CustomerEndpoint } from './endpoints/CustomerEndpoint'
-import { PricingEndpoint } from './endpoints/PricingEndpoint'
+import { PricesEndpoint } from './endpoints/PricesEndpoint'
 import { ProductEndpoint } from './endpoints/ProductEndpoint'
 import { SubscriptionEndpoint } from './endpoints/SubscriptionEndpoint'
 
@@ -15,8 +15,8 @@ export class PaddleClient {
   config: PaddleClientConfig
   client: AxiosInstance
 
+  prices: PricesEndpoint
   products: ProductEndpoint
-  prices: PricingEndpoint
   customers: CustomerEndpoint
   subscriptions: SubscriptionEndpoint
 
@@ -32,8 +32,8 @@ export class PaddleClient {
     })
 
     // Initialize endpoints with axios instance
+    this.prices = new PricesEndpoint(this)
     this.products = new ProductEndpoint(this)
-    this.prices = new PricingEndpoint(this)
     this.customers = new CustomerEndpoint(this)
     this.subscriptions = new SubscriptionEndpoint(this)
   }

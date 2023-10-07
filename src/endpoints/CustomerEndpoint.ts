@@ -1,21 +1,24 @@
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
+import { BaseQueryParams, BaseResponse } from './base'
 
 export interface CustomerMetadata {
   [key: string]: boolean | number | string
 }
+
+type CustomerStatus = 'active' | 'archived'
 
 export type Customer = {
   id: string
   name: string | null
   email: string
   marketing_consent: boolean
-  status: 'active' | 'archived'
+  status: CustomerStatus
   custom_data: CustomerMetadata | null
   locale: string
-  created_at: Date
-  updated_at: Date
+  created_at: string
+  updated_at: string
 }
 
 type CreateCustomerRequestBody = Pick<Customer, 'email'> &
@@ -35,34 +38,15 @@ type CustomerCreditBalance = {
   balance: CreditBalance
 }
 
-type CustomerCreditBalancesResponse = {
-  data: CustomerCreditBalance[]
-  meta: {
-    request_id: string
-  }
-}
+type CustomerCreditBalancesResponse = BaseResponse<CustomerCreditBalance[]>
 
-type SingleCustomerResponse = {
-  data: Customer
-  meta: {
-    request_id: string
-  }
-}
+type CustomerResponse = BaseResponse<Customer>
+type CustomersResponse = BaseResponse<Customer[]>
 
-type CustomerResponse = {
-  data: Customer[]
-  meta: {
-    request_id: string
-  }
-}
-
-type ListCustomersQueryParams = {
-  after?: string
+type ListCustomersQueryParams = BaseQueryParams & {
   id?: string
-  order_by?: string
-  per_page?: number
   search?: string
-  status?: 'active' | 'archived'
+  status?: CustomerStatus
 }
 
 export class CustomerEndpoint {
@@ -72,31 +56,28 @@ export class CustomerEndpoint {
     this.client = paddleClient.client
   }
 
-  async listCustomers(queryParams?: ListCustomersQueryParams): Promise<CustomerResponse> {
-    const response = await this.client.get<CustomerResponse>('/customers', {
+  async listCustomers(queryParams?: ListCustomersQueryParams): Promise<CustomersResponse> {
+    const response = await this.client.get<CustomersResponse>('/customers', {
       params: queryParams,
     })
     return response.data
   }
 
-  async createCustomer(customer: CreateCustomerRequestBody): Promise<SingleCustomerResponse> {
-    const response = await this.client.post<SingleCustomerResponse>('/customers', customer)
+  async createCustomer(customer: CreateCustomerRequestBody): Promise<CustomerResponse> {
+    const response = await this.client.post<CustomerResponse>('/customers', customer)
     return response.data
   }
 
-  async getCustomer(customerId: string): Promise<SingleCustomerResponse> {
-    const response = await this.client.get<SingleCustomerResponse>(`/customers/${customerId}`)
+  async getCustomer(customerId: string): Promise<CustomerResponse> {
+    const response = await this.client.get<CustomerResponse>(`/customers/${customerId}`)
     return response.data
   }
 
   async updateCustomer(
     customerId: string,
     updates: UpdateCustomerRequestBody,
-  ): Promise<SingleCustomerResponse> {
-    const response = await this.client.patch<SingleCustomerResponse>(
-      `/customers/${customerId}`,
-      updates,
-    )
+  ): Promise<CustomerResponse> {
+    const response = await this.client.patch<CustomerResponse>(`/customers/${customerId}`, updates)
     return response.data
   }
 
