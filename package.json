@@ -31,11 +31,12 @@
     "axios": "1.x"
   },
   "devDependencies": {
-    "bun-plugin-dts": "^0.1.0",
-    "bun-types": "^1.0.1",
+    "axios": "^1.5.1",
+    "bun-plugin-dts": "^0.2.1",
+    "bun-types": "^1.0.4",
     "esbuild-node-externals": "^1.9.0",
     "esbuild": "^0.19.4",
-    "eslint": "^8.50.0",
+    "eslint": "^8.51.0",
     "prettier": "^3.0.3",
     "typescript": "^5.1.6"
   },
