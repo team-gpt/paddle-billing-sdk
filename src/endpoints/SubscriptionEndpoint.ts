@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
 import { Price } from './PricesEndpoint'
-import { BaseQueryParams, BaseResponse } from './base'
+import { BaseQueryParams, BaseResponse, Interval, Period } from './base'
 
 export interface SubscriptionMetadata {
   [key: string]: boolean | number | string
@@ -18,21 +18,6 @@ type BillingDetails = {
   enable_checkout: boolean
   purchase_order_number: string
   additional_information: string
-}
-
-type PaymentTerms = {
-  interval: string
-  frequency: number
-}
-
-type Period = {
-  starts_at: string
-  ends_at: string
-}
-
-type Cycling = {
-  interval: string
-  frequency: number
 }
 
 type ScheduledChange = {
@@ -78,9 +63,9 @@ export type Subscription = {
   discount: Discount | null
   collection_mode: string
   billing_details: BillingDetails | null
-  payment_terms: PaymentTerms
+  payment_terms: Interval
   current_billing_period: Period | null
-  billing_cycle: Cycling
+  billing_cycle: Interval
   scheduled_change: ScheduledChange | null
   management_urls: ManagementURLs
   items: SubscriptionItem[]

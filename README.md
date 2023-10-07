@@ -37,7 +37,7 @@ yarn add axios
 - [ ] Discounts
 - [ ] Addresses
 - [ ] Businesses
-- [ ] Transactions
+- [x] Transactions
 - [x] Subscriptions
 - [ ] Adjustments
 - [ ] Event Types
@@ -153,6 +153,9 @@ declare module '@team-gpt/paddle-billing-sdk' {
     myKey: string
   }
   export interface CustomerMetadata {
+    myKey: string
+  }
+  export interface TransactionMetadata {
     myKey: string
   }
   export interface SubscriptionMetadata {

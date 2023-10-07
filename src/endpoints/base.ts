@@ -12,6 +12,21 @@ export type BaseResponse<T> = {
   }
 }
 
+/**
+ * ISO 3166-1 alpha-2 country code
+ */
+export type CountryCode = string
+export type CurrencyCode = 'USD' | 'EUR' | 'GBP'
+
+export type Period = {
+  starts_at: string // RFC 3339 datetime string
+  ends_at: string // RFC 3339 datetime string
+}
+export type Interval = {
+  interval: string
+  frequency: number
+}
+
 export type Pagination = {
   /**
    * Number of entities per page for this response.
