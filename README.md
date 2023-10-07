@@ -49,7 +49,7 @@ yarn add axios
 import { PaddleClient } from '@team-gpt/paddle-billing-sdk'
 
 /**
- * @see https://developer.paddle.com/api-reference/prices/overview
+ * @see https://developer.paddle.com/api-reference/overview
  */
 export const paddleClient = new PaddleClient({
   authToken: process.env.PADDLE_AUTH_SECRET || 'MISSING',
