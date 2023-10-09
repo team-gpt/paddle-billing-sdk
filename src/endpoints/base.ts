@@ -16,7 +16,42 @@ export type BaseResponse<T> = {
  * ISO 3166-1 alpha-2 country code
  */
 export type CountryCode = string
-export type CurrencyCode = 'USD' | 'EUR' | 'GBP'
+
+/**
+ * ISO 4217 currency code
+ */
+export type CurrencyCode =
+  | 'USD'
+  | 'EUR'
+  | 'GBP'
+  | 'JPY'
+  | 'AUD'
+  | 'CAD'
+  | 'CHF'
+  | 'HKD'
+  | 'SGD'
+  | 'SEK'
+  | 'ARS'
+  | 'BRL'
+  | 'CNY'
+  | 'COP'
+  | 'CZK'
+  | 'DKK'
+  | 'HUF'
+  | 'ILS'
+  | 'INR'
+  | 'KRW'
+  | 'MXN'
+  | 'NOK'
+  | 'NZD'
+  | 'PLN'
+  | 'RUB'
+  | 'THB'
+  | 'TRY'
+  | 'TWD'
+  | 'UAH'
+  | 'ZAR'
+  | (string & {})
 
 export type Period = {
   starts_at: string // RFC 3339 datetime string
