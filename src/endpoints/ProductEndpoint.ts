@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
 import { Price } from './PricesEndpoint'
-import { BaseQueryParams, BaseResponse } from './base'
+import { BaseQueryParams, BaseResponse, prepareQuery } from './base'
 
 export interface ProductMetadata {
   [key: string]: boolean | number | string
@@ -55,7 +55,7 @@ export class ProductEndpoint {
 
   async listProducts(queryParams?: ListProductsQueryParams): Promise<ProductResponse> {
     const response = await this.client.get<ProductResponse>('/products', {
-      params: queryParams,
+      params: prepareQuery(queryParams),
     })
     return response.data
   }

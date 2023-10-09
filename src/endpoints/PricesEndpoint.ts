@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
-import { BaseQueryParams, BaseResponse, MaybeArray, stringifyQuery } from './base'
+import { BaseQueryParams, BaseResponse, MaybeArray, prepareQuery } from './base'
 
 export interface PriceMetadata {
   [key: string]: boolean | number | string
@@ -68,12 +68,7 @@ export class PricesEndpoint {
 
   async listPrices(queryParams?: ListPricesQueryParams): Promise<PricesResponse> {
     const response = await this.client.get<PricesResponse>('/prices', {
-      params: {
-        ...queryParams,
-        ...(queryParams?.product_id && {
-          product_id: stringifyQuery(queryParams.product_id),
-        }),
-      },
+      params: prepareQuery(queryParams),
     })
     return response.data
   }

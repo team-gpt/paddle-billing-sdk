@@ -12,8 +12,6 @@ export type BaseResponse<T> = {
   }
 }
 
-export type MaybeArray<T> = T | T[]
-
 /**
  * ISO 3166-1 alpha-2 country code
  */
@@ -53,6 +51,36 @@ export type Pagination = {
   estimated_total: number
 }
 
-export const stringifyQuery = (param: string | string[]): string => {
-  return Array.isArray(param) ? param.join(',') : param
+export type MaybeArray<T> = T | T[]
+
+export const stringifyQuery = <T extends string | number | boolean>(
+  param: MaybeArray<T>,
+): string => {
+  return Array.isArray(param) ? param.join(',') : param.toString()
+}
+
+export const prepareQuery = (params?: {
+  [key: string]: MaybeArray<string | number | boolean> | undefined
+}): Record<string, string> | undefined => {
+  if (!params) return undefined
+  return Object.entries(params).reduce((acc: { [key: string]: string }, [key, value]) => {
+    switch (typeof value) {
+      case 'boolean':
+        acc[key] = value ? 'true' : 'false'
+        break
+      case 'number':
+        acc[key] = value.toString()
+        break
+      case 'object': // Array
+        acc[key] = stringifyQuery(value)
+        break
+      case 'undefined':
+        // Skip
+        break
+      case 'string':
+      default:
+        acc[key] = value
+    }
+    return acc
+  }, {})
 }

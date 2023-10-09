@@ -9,6 +9,7 @@ import {
   Interval,
   MaybeArray,
   Period,
+  prepareQuery,
   Proration,
 } from './base'
 import { Price } from './PricesEndpoint'
@@ -96,7 +97,7 @@ type ListTransactionsQueryParams = BaseQueryParams & {
   created_at?: string
   customer_id?: MaybeArray<string>
   id?: MaybeArray<string>
-  include?: MaybeArray<string>
+  include?: MaybeArray<TransactionInclude>
   invoice_number?: MaybeArray<string>
   status?: MaybeArray<TransactionStatus>
   subscription_id?: MaybeArray<string>
@@ -185,7 +186,7 @@ export class TransactionEndpoint {
     queryParams?: ListTransactionsQueryParams,
   ): Promise<BaseResponse<Transaction[]>> {
     const response = await this.client.get<BaseResponse<Transaction[]>>('/transactions', {
-      params: queryParams,
+      params: prepareQuery(queryParams),
     })
     return response.data
   }
@@ -197,7 +198,7 @@ export class TransactionEndpoint {
     const response = await this.client.post<BaseResponse<Transaction>>(
       '/transactions',
       transaction,
-      { params: queryParams },
+      { params: prepareQuery(queryParams) },
     )
     return response.data
   }
@@ -208,7 +209,7 @@ export class TransactionEndpoint {
   ): Promise<BaseResponse<Transaction>> {
     const response = await this.client.get<BaseResponse<Transaction>>(
       `/transactions/${transactionId}`,
-      { params: queryParams },
+      { params: prepareQuery(queryParams) },
     )
     return response.data
   }

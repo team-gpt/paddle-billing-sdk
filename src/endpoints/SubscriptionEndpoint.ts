@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
 import { Price } from './PricesEndpoint'
-import { BaseQueryParams, BaseResponse, Interval, Period } from './base'
+import { BaseQueryParams, BaseResponse, Interval, Period, prepareQuery } from './base'
 
 export interface SubscriptionMetadata {
   [key: string]: boolean | number | string
@@ -115,7 +115,7 @@ export class SubscriptionEndpoint {
     queryParams?: ListSubscriptionsQueryParams,
   ): Promise<SubscriptionsResponse> {
     const response = await this.client.get<SubscriptionsResponse>('/subscriptions', {
-      params: queryParams,
+      params: prepareQuery(queryParams),
     })
     return response.data
   }
@@ -133,7 +133,7 @@ export class SubscriptionEndpoint {
   ): Promise<SubscriptionResponse> {
     const response = await this.client.get<SubscriptionResponse>(
       `/subscriptions/${subscriptionId}`,
-      { params: queryParams },
+      { params: prepareQuery(queryParams) },
     )
     return response.data
   }
