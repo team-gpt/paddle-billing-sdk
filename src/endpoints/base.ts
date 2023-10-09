@@ -12,6 +12,8 @@ export type BaseResponse<T> = {
   }
 }
 
+export type MaybeArray<T> = T | T[]
+
 /**
  * ISO 3166-1 alpha-2 country code
  */
@@ -25,6 +27,11 @@ export type Period = {
 export type Interval = {
   interval: string
   frequency: number
+}
+
+export type Proration = {
+  rate: string
+  billing_period: Period
 }
 
 export type Pagination = {

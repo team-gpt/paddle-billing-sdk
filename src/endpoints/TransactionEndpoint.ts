@@ -1,12 +1,23 @@
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
-import { BaseQueryParams, BaseResponse, CountryCode, CurrencyCode, Interval, Period } from './base'
+import {
+  BaseQueryParams,
+  BaseResponse,
+  CountryCode,
+  CurrencyCode,
+  Interval,
+  MaybeArray,
+  Period,
+  Proration,
+} from './base'
+import { Price } from './PricesEndpoint'
 
 export interface TransactionMetadata {
   [key: string]: boolean | number | string
 }
 
+type CollectionMode = 'automatic' | 'manual'
 type TransactionStatus =
   | 'draft'
   | 'ready'
@@ -15,7 +26,6 @@ type TransactionStatus =
   | 'completed'
   | 'canceled'
   | 'past_due'
-type CollectionMode = 'automatic' | 'manual'
 
 type CheckoutUrl = {
   url: string | null
@@ -24,6 +34,9 @@ type CheckoutUrl = {
 type TransactionItem = {
   price_id: string
   quantity: number
+  price?: Price
+  include_in_totals?: boolean
+  proration?: Proration | null
 }
 
 type Address = {
@@ -50,7 +63,7 @@ type Transaction = {
   business_id: string | null
   currency_code: CurrencyCode
   discount_id: string | null
-  custom_data: object | null
+  custom_data?: TransactionMetadata
   items: TransactionItem[]
   billing_details: BillingDetails | null
   collection_mode: CollectionMode
@@ -69,16 +82,7 @@ type Transaction = {
   discount?: object
 }
 
-type ListTransactionsQueryParams = BaseQueryParams & {
-  status?: TransactionStatus[]
-  customer_id?: string[] | null
-  address_id?: string[] | null
-  business_id?: string[] | null
-  currency_code?: CurrencyCode[] | null
-  discount_id?: string[] | null
-}
-
-type CreateTransactionInclude =
+type TransactionInclude =
   | 'address'
   | 'adjustment'
   | 'adjustments_totals'
@@ -86,44 +90,57 @@ type CreateTransactionInclude =
   | 'customer'
   | 'discount'
 
+type ListTransactionsQueryParams = BaseQueryParams & {
+  billed_at?: string
+  collection_mode?: CollectionMode
+  created_at?: string
+  customer_id?: MaybeArray<string>
+  id?: MaybeArray<string>
+  include?: MaybeArray<string>
+  invoice_number?: MaybeArray<string>
+  status?: MaybeArray<TransactionStatus>
+  subscription_id?: MaybeArray<string>
+  updated_at?: string
+}
+
 type TransactionIncludeQueryParams = {
-  include: CreateTransactionInclude | CreateTransactionInclude[]
+  include: MaybeArray<TransactionInclude>
 }
 type CreateTransactionRequestBody = {
-  items: TransactionItem[]
+  items: Pick<TransactionItem, 'price_id' | 'quantity'>[]
   price_id: string
   quantity: number
   status?: TransactionStatus
-  customer_id?: string | null
-  address_id?: string | null
-  business_id?: string | null
-  custom_data?: object | null
+  customer_id?: string
+  address_id?: string
+  business_id?: string
+  custom_data?: TransactionMetadata
   currency_code?: CurrencyCode
   collection_mode?: CollectionMode
-  discount_id?: string | null
-  billing_details?: BillingDetails | null
-  checkout?: CheckoutUrl | null
+  discount_id?: string
+  billing_details?: BillingDetails
+  checkout?: CheckoutUrl
 }
 
 type UpdateTransactionRequestBody = {
   status?: 'billed' | 'canceled'
-  customer_id?: string | null
-  address_id?: string | null
-  business_id?: string | null
-  custom_data?: TransactionMetadata | null
+  customer_id?: string
+  address_id?: string
+  business_id?: string
+  custom_data?: TransactionMetadata
   currency_code?: CurrencyCode
   collection_mode?: CollectionMode
-  discount_id?: string | null
-  billing_details?: BillingDetails | null
+  discount_id?: string
+  billing_details?: BillingDetails
   enable_checkout?: boolean
   purchase_order_number?: string
   additional_information?: string
   payment_terms?: object
-  billing_period?: Period | null
+  billing_period?: Period
   items?: TransactionItem[]
   price_id?: string
   quantity?: number
-  checkout?: CheckoutUrl | null
+  checkout?: CheckoutUrl
 }
 
 type PreviewTransactionRequestBody = {
@@ -131,14 +148,14 @@ type PreviewTransactionRequestBody = {
   price_id?: string
   quantity: number
   include_in_totals?: boolean
-  customer_id?: string | null
-  address_id?: string | null
-  business_id?: string | null
+  customer_id?: string
+  address_id?: string
+  business_id?: string
   currency_code?: CurrencyCode
-  discount_id?: string | null
-  customer_ip_address?: string | null
-  address?: Address | null
-  postal_code?: string | null
+  discount_id?: string
+  customer_ip_address?: string
+  address?: Address
+  postal_code?: string
   country_code?: CountryCode
   ignore_trials?: boolean
 }
@@ -153,7 +170,7 @@ type PreviewTransactionResponseData = {
   address: Address | null
 }
 
-type GetInvoicePDFResponseData = {
+type InvoiceResponseData = {
   url: string
 }
 
@@ -217,8 +234,8 @@ export class TransactionEndpoint {
     return response.data
   }
 
-  async getInvoicePDF(transactionId: string): Promise<BaseResponse<GetInvoicePDFResponseData>> {
-    const response = await this.client.get<BaseResponse<GetInvoicePDFResponseData>>(
+  async getInvoicePDF(transactionId: string): Promise<BaseResponse<InvoiceResponseData>> {
+    const response = await this.client.get<BaseResponse<InvoiceResponseData>>(
       `/transactions/${transactionId}/invoice`,
     )
     return response.data

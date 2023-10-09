@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
-import { BaseQueryParams, BaseResponse, stringifyQuery } from './base'
+import { BaseQueryParams, BaseResponse, MaybeArray, stringifyQuery } from './base'
 
 export interface PriceMetadata {
   [key: string]: boolean | number | string
@@ -12,7 +12,7 @@ type PriceStatus = 'active' | 'archived'
 type ListPricesQueryParams = BaseQueryParams & {
   id?: string
   include?: 'product'
-  product_id?: string | string[]
+  product_id?: MaybeArray<string>
   status?: PriceStatus
   recurring?: boolean
 }
