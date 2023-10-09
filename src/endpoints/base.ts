@@ -32,6 +32,28 @@ export type Proration = {
   billing_period: Period
 }
 
+export type Totals = {
+  subtotal: string
+  discount: string
+  tax: string
+  total: string
+  grand_total: string
+  fee: string
+  credit: string
+  balance: string
+  earnings: string
+  currency_code: CurrencyCode
+}
+
+export type TaxRate = {
+  tax_rate: string
+  totals: Pick<Totals, 'discount' | 'subtotal' | 'tax' | 'total'>
+}
+export type AdjustedTotals = Pick<
+  Totals,
+  'subtotal' | 'tax' | 'total' | 'grand_total' | 'fee' | 'earnings' | 'currency_code'
+>
+
 export type Pagination = {
   /**
    * Number of entities per page for this response.

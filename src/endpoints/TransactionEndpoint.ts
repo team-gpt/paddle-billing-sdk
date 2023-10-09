@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
 import {
+  AdjustedTotals,
   BaseQueryParams,
   BaseResponse,
   CountryCode,
@@ -11,6 +12,8 @@ import {
   Period,
   prepareQuery,
   Proration,
+  TaxRate,
+  Totals,
 } from './base'
 import { Price } from './PricesEndpoint'
 
@@ -39,6 +42,10 @@ type TransactionItem = {
   include_in_totals?: boolean
   proration?: Proration | null
 }
+type TransactionItemExpanded = {
+  quantity: number
+  price: Price
+}
 
 type Address = {
   postal_code?: string
@@ -58,14 +65,18 @@ type BillingDetails = {
 type Transaction = {
   id: string
   status: TransactionStatus
-  created_at: string // RFC 3339 datetime string
+  created_at: string
+  updated_at?: string
+  billed_at?: string
   customer_id: string | null
   address_id: string | null
   business_id: string | null
   currency_code: CurrencyCode
   discount_id: string | null
   custom_data?: TransactionMetadata
-  items: TransactionItem[]
+  invoice_id?: string
+  invoice_number?: string
+  items: TransactionItemExpanded[]
   billing_details: BillingDetails | null
   collection_mode: CollectionMode
   enable_checkout: boolean
@@ -74,6 +85,15 @@ type Transaction = {
   payment_terms: Interval
   billing_period: Period | null
   checkout: CheckoutUrl | null
+  details?: {
+    tax_rates_used: TaxRate[]
+    totals: Totals
+    adjusted_totals: AdjustedTotals
+    payout_totals: Totals
+    adjusted_payout_totals: AdjustedTotals
+  }
+  line_items?: [] // TODO: add line items
+  payments?: [] // TODO: add payments
   // Included
   address?: object
   adjustment?: object
