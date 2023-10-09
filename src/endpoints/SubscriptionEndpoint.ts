@@ -1,9 +1,16 @@
-import { CollectionMode } from './../../dist/bun/index.d'
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
 import { Price } from './PricesEndpoint'
-import { BaseQueryParams, BaseResponse, CurrencyCode, Interval, Period, prepareQuery } from './base'
+import {
+  BaseQueryParams,
+  BaseResponse,
+  CollectionMode,
+  CurrencyCode,
+  Interval,
+  Period,
+  prepareQuery,
+} from './base'
 
 export interface SubscriptionMetadata {
   [key: string]: boolean | number | string

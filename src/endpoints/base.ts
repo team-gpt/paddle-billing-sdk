@@ -61,7 +61,7 @@ export type Interval = {
   interval: 'day' | 'week' | 'month' | 'year'
   frequency: number
 }
-
+export type CollectionMode = 'automatic' | 'manual'
 export type Proration = {
   rate: string
   billing_period: Period

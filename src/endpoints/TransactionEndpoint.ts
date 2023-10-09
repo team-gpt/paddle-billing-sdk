@@ -5,6 +5,7 @@ import {
   AdjustedTotals,
   BaseQueryParams,
   BaseResponse,
+  CollectionMode,
   CountryCode,
   CurrencyCode,
   Interval,
@@ -21,7 +22,6 @@ export interface TransactionMetadata {
   [key: string]: boolean | number | string
 }
 
-type CollectionMode = 'automatic' | 'manual'
 type TransactionStatus =
   | 'draft'
   | 'ready'
