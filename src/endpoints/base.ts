@@ -58,7 +58,7 @@ export type Period = {
   ends_at: string // RFC 3339 datetime string
 }
 export type Interval = {
-  interval: string
+  interval: 'day' | 'week' | 'month' | 'year'
   frequency: number
 }
 

@@ -1,8 +1,9 @@
+import { CollectionMode } from './../../dist/bun/index.d'
 import { AxiosInstance } from 'axios'
 
 import { PaddleClient } from '../paddleClient'
 import { Price } from './PricesEndpoint'
-import { BaseQueryParams, BaseResponse, Interval, Period, prepareQuery } from './base'
+import { BaseQueryParams, BaseResponse, CurrencyCode, Interval, Period, prepareQuery } from './base'
 
 export interface SubscriptionMetadata {
   [key: string]: boolean | number | string
@@ -18,6 +19,7 @@ type BillingDetails = {
   enable_checkout: boolean
   purchase_order_number: string
   additional_information: string
+  payment_terms: Interval
 }
 
 type ScheduledChange = {
@@ -44,6 +46,10 @@ type SubscriptionItem = {
   trial_dates: Period | null
   price: Price
   custom_data?: SubscriptionMetadata
+}
+type SubscriptionItemInput = {
+  price_id: string
+  quantity: number
 }
 
 export type Subscription = {
@@ -85,9 +91,17 @@ type ProrationBillingMode =
   | 'do_not_bill'
 
 type CreateSubscriptionRequestBody = Omit<Subscription, 'id' | 'created_at' | 'updated_at'>
-type UpdateSubscriptionRequestBody = Partial<
-  Omit<Subscription, 'id' | 'created_at' | 'updated_at'>
-> & {
+type UpdateSubscriptionRequestBody = {
+  customer_id?: string
+  address_id?: string
+  business_id?: string | null
+  currency_code?: CurrencyCode
+  next_billed_at?: string
+  discount?: Discount | null
+  collection_mode?: CollectionMode
+  billing_details?: BillingDetails | null
+  scheduled_change?: null
+  items: SubscriptionItemInput[]
   proration_billing_mode: ProrationBillingMode
 }
 

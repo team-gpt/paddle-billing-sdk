@@ -35,7 +35,7 @@ type CheckoutUrl = {
   url: string | null
 }
 
-type TransactionItem = {
+export type TransactionItem = {
   price_id: string
   quantity: number
   price?: Price
