@@ -4,6 +4,7 @@ import { CustomerEndpoint } from './endpoints/CustomerEndpoint'
 import { PricesEndpoint } from './endpoints/PricesEndpoint'
 import { ProductEndpoint } from './endpoints/ProductEndpoint'
 import { SubscriptionEndpoint } from './endpoints/SubscriptionEndpoint'
+import { TransactionEndpoint } from './endpoints/TransactionEndpoint'
 
 type PaddleClientConfig = {
   sandbox: boolean
@@ -18,6 +19,7 @@ export class PaddleClient {
   prices: PricesEndpoint
   products: ProductEndpoint
   customers: CustomerEndpoint
+  transactions: TransactionEndpoint
   subscriptions: SubscriptionEndpoint
 
   constructor(config: PaddleClientConfig) {
@@ -35,6 +37,7 @@ export class PaddleClient {
     this.prices = new PricesEndpoint(this)
     this.products = new ProductEndpoint(this)
     this.customers = new CustomerEndpoint(this)
+    this.transactions = new TransactionEndpoint(this)
     this.subscriptions = new SubscriptionEndpoint(this)
   }
 }
