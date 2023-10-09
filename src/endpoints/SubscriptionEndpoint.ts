@@ -5,8 +5,10 @@ import { Price } from './PricesEndpoint'
 import {
   BaseQueryParams,
   BaseResponse,
+  BillingDetails,
   CollectionMode,
   CurrencyCode,
+  Discount,
   Interval,
   Period,
   prepareQuery,
@@ -14,19 +16,6 @@ import {
 
 export interface SubscriptionMetadata {
   [key: string]: boolean | number | string
-}
-
-type Discount = {
-  id: string
-  starts_at: string
-  ends_at: string
-}
-
-type BillingDetails = {
-  enable_checkout: boolean
-  purchase_order_number: string
-  additional_information: string
-  payment_terms: Interval
 }
 
 type ScheduledChange = {

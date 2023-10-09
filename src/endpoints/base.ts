@@ -73,11 +73,24 @@ export type Totals = {
   tax: string
   total: string
   grand_total: string
-  fee: string
+  fee: string | null
   credit: string
   balance: string
-  earnings: string
+  earnings: string | null
   currency_code: CurrencyCode
+}
+
+export type Discount = {
+  id: string
+  starts_at: string
+  ends_at: string
+}
+
+export type BillingDetails = {
+  enable_checkout: boolean
+  purchase_order_number?: string
+  additional_information?: string
+  payment_terms?: Interval
 }
 
 export type TaxRate = {

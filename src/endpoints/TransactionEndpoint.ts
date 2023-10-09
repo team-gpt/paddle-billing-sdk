@@ -5,6 +5,7 @@ import {
   AdjustedTotals,
   BaseQueryParams,
   BaseResponse,
+  BillingDetails,
   CollectionMode,
   CountryCode,
   CurrencyCode,
@@ -50,15 +51,6 @@ type TransactionItemExpanded = {
 type Address = {
   postal_code?: string
   country_code: CountryCode
-}
-
-type BillingDetails = {
-  enable_checkout: boolean
-  purchase_order_number?: string
-  additional_information?: string
-  payment_terms?: {
-    net_days: number // Example: 30 for Net 30 payment terms
-  }
 }
 
 // From the Transactions Overview page
