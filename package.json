@@ -1,7 +1,7 @@
 {
   "name": "@team-gpt/paddle-billing-sdk",
   "description": "Paddle Billing SDK for Node",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/bun/index.d.ts",
