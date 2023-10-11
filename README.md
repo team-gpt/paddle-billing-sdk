@@ -139,6 +139,22 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
 
 4. Send a request
 
+### TypeError: adapter is not a function
+
+If you're getting this error while using the client then you need to install `axios` as a dependency:
+
+```shell
+npm i axios
+```
+
+```shell
+yarn add axios
+```
+
+```shell
+bun add axios
+```
+
 ## Extend custom data
 
 To extend the default custom data interfaces add the following to your codebase
