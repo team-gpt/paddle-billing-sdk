@@ -84,10 +84,7 @@ Usage with Next.js API handlers
 import { WebhookEvents, signatureHeader } from 'paddle-billing-sdk'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-const authSecret = process.env.PADDLE_AUTH_SECRET
 const webhookSecret = process.env.PADDLE_WEBHOOK_SECRET
-
-if (!authSecret) throw new Error('No Paddle auth secret set!')
 
 export const config = {
   api: {
