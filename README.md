@@ -4,6 +4,10 @@ Unofficial Paddle Billing API SDK for Node.js runtime
 
 See <https://developer.paddle.com/api-reference/overview>
 
+## Official Paddle Billing SDK
+
+See <https://github.com/PaddleHQ/paddle-node-sdk/>
+
 ## Getting Started
 
 ### Setup
